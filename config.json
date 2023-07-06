@@ -1,0 +1,19 @@
+{
+    "api_token": "YOUR_PEXEL_API_KEY",
+
+    "query": "wallpaper hd",
+    "orientation": "landscape",
+    "size": "medium",
+    "color": "",
+    "locale": "",
+    "page": 1,
+    "per_page": 80,
+
+
+    "src_size": "original",
+    "must_have_alt": true,
+
+    
+    "min_width": 1280,
+    "image_cleanup_after": 7
+}

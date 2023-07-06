@@ -1,0 +1,15 @@
+{
+    "api_token": "YOUR_API_KEY",
+
+    "query": "wallpaper hd",
+    "orientation": "landscape",
+    "size": "medium",
+    "colour": "",
+    "locale": "",
+    "page": 1,
+    "per_page": 15,
+
+
+    "src_size": "original",
+    "must_have_alt": true
+}
