@@ -20,12 +20,14 @@ except ModuleNotFoundError:
 
 
 # check previous update time
-with open("LASTRUN") as f:
-    today = datetime.datetime.today()
-    if today.date() == datetime.datetime.strptime(f.read(), "%Y-%m-%d %H:%M:%S").date():
-        logging.info("Already Updated Today. Next update on tomorrow.")
-        sys.exit("Already Updated Today. Next update on tomorrow.")
-
+try:
+    with open("LASTRUN") as f:
+        today = datetime.datetime.today()
+        if today.date() == datetime.datetime.strptime(f.read(), "%Y-%m-%d %H:%M:%S").date():
+            logging.info("Already Updated Today. Next update on tomorrow.")
+            sys.exit("Already Updated Today. Next update on tomorrow.")
+except FileNotFoundError:
+    pass
 
 # loading config file
 with open('./config.dev.json') as f:
@@ -104,8 +106,11 @@ def fetch_photos(url=f"{base_url}/search", params=params):
 
     data = resp.json()
 
-    with open("COMPLETED") as f:
-        completed = f.read()
+    try:
+        with open("COMPLETED") as f:
+            completed = f.read()
+    except FileNotFoundError:
+        completed = ""
 
 
     for photo in data['photos']:
