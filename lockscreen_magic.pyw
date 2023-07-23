@@ -1,18 +1,22 @@
 import os
+import subprocess
+
 import json
 from random import choice
 import datetime
 import logging
 import sys
 
+logging.basicConfig(filename="changes.log", level="DEBUG", format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
 try:
     import requests
 except ModuleNotFoundError:
-    os.system("pip install requests")
-    import requests
-
-
-logging.basicConfig(filename="changes.log", level="DEBUG", format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    try:
+        subprocess.run("pip install requests", shell=True, check=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        import requests
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Can't install/import requests module. error: {e}")
 
 
 # check previous update time
@@ -149,9 +153,13 @@ logging.info(f"Image Saved at: {temp_file}")
 
 
 # setting image as lockscreen
-os.system(f"igcmdWin10.exe setlockimage {os.path.abspath(temp_file)}")
+try:
+    subprocess.run(f"igcmdWin10.exe setlockimage {os.path.abspath(temp_file)}",
+                   shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-logging.info("Lockscreen image updated")
+    logging.info("Lockscreen image updated")
+except subprocess.CalledProcessError as e:
+    logging.error(f"Cant set lockscreen image. error: {e}")
 
 
 # adding the image url to COMPLETED list.
@@ -168,7 +176,6 @@ with open("LASTRUN", 'w') as f:
 
 
 logging.info(f"LASTRUN: {lastrun}")
-
 
 
 def cleanup_wallpapers():
