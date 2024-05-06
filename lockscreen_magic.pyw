@@ -4,6 +4,7 @@ from random import choice
 import datetime
 import logging
 import sys
+from _auto_update import update
 
 try:
     import requests
@@ -13,6 +14,10 @@ except ModuleNotFoundError:
 
 
 logging.basicConfig(filename="changes.log", level="DEBUG", format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
+
+# checking and downloading updates
+update()
 
 
 # check previous update time
