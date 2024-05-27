@@ -1,7 +1,7 @@
 ## Code/Syntax
 - [ ]  separate pexels code
 - [ ]  schedule task daily for 9am to change wallpaper
-- [ ]  prepare a installer for this scrtpt
+- [x]  prepare a installer for this scrtpt
 - [ ]  make it Object Oriented.
 
 
