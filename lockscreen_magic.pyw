@@ -17,6 +17,7 @@ except ModuleNotFoundError:
         import requests
     except subprocess.CalledProcessError as e:
         logging.error(f"Can't install/import requests module. error: {e}")
+        exit(1)
 
 
 # check previous update time
@@ -29,22 +30,29 @@ try:
 except FileNotFoundError:
     pass
 
+
 # loading config file
-with open('./config.dev.json') as f:
+with open('./config.json') as f:
     config = json.loads(f.read())
 
 
 # validating config file
-if 'api_token' not in config or type(config['api_token']) is not str or not config['api_token']:
-    logging.info(f"Invalid api_token `{config['api_token']}`.  Get your API Key from https://pexels.com/api")
+if 'pexels_api_key' not in config or type(config['pexels_api_key']) is not str or not config['pexels_api_key']:
+    logging.info(f"Invalid pexels_api_key `{config['pexels_api_key']}`.  Get your API Key from https://pexels.com/api")
     sys.exit(1)
+elif config['pexels_api_key'] == "YOUR_PEXELS_API_KEY":
+    pexels_api_key = os.environ.get("PEXELS_API_KEY")
+    if not pexels_api_key:
+        logging.info(f"Invalid pexels_api_key `{config['pexels_api_key']}`.  Get your API Key from https://pexels.com/api , update API")
+        sys.exit(1)
+    config['pexels_api_key'] = pexels_api_key
 
 if 'query' not in config or config["query"] == "":
-    logging.info("Invalid query. query example: \"nature wallpaper\"")
-    sys.exit(1)
+    logging.info(f"Invalid query, {config['query']}. query example: \"nature wallpaper\"")
+    # sys.exit(1)
 
 if "orientation" in config and config["orientation"] not in ["", "landscape", "portrait"]:
-    logging.info("Invalid orientation. orientation can be portrait ot landscape")
+    logging.info("Invalid orientation. orientation can be 'portrait' or 'landscape'")
     # sys.exit(1)
 
 if "size" in config and config["size"] not in ["", "small", "medium", "large"]:
@@ -75,7 +83,7 @@ temp_path = os.path.join(os.getcwd(), "temp")
 base_url = "https://api.pexels.com/v1"
 
 headers = {
-    "Authorization": config['api_token']
+    "Authorization": config['pexels_api_key']
 }
 
 params = {
@@ -188,11 +196,13 @@ def cleanup_wallpapers():
 
     current_date = datetime.datetime.today()
 
+    image_cleanup_after = config['image_cleanup_after']
+    
     for wp in wallpapers:
         wp_path = os.path.join(temp_path, wp)
         wp_created = datetime.datetime.fromtimestamp(os.path.getctime(wp_path))
 
-        if (current_date - wp_created).days > config['image_cleanup_after']:
+        if image_cleanup_after  and (current_date - wp_created).days > image_cleanup_after:
             os.remove(wp_path)
         
 

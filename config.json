@@ -1,5 +1,5 @@
 {
-    "api_token": "YOUR_PEXEL_API_KEY",
+    "pexels_api_key": "YOUR_PEXELS_API_KEY",
 
     "query": "wallpaper hd",
     "orientation": "landscape",
@@ -15,5 +15,5 @@
 
     
     "min_width": 1280,
-    "image_cleanup_after": 7
+    "image_cleanup_after": 0
 }
