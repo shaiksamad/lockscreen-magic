@@ -1,13 +1,13 @@
-1. separate pexels code
-2. Schedule task daily for 9am to change wallpaper
-3. prepare a installer for this scrtpt
-4. make it Object Oriented.
+## Code/Syntax
+- [ ]  separate pexels code
+- [ ]  schedule task daily for 9am to change wallpaper
+- [ ]  prepare a installer for this scrtpt
+- [ ]  make it Object Oriented.
 
-# Add Credits to Photos
-## Create Water Mark
-options-
-- Watermark On/Off
-- Watermark position top/bottom/left/rigt
 
-# Generate Random Queries / Photos
-- if user does not specify query, generate it from list of possibilities 
+## Features
+- [ ]  add credits to photos using watermark
+- [ ]  generate random queries / photos
+- [ ]  add favourite wallpaper feature if possible
+- [ ]  add Guide to installation/usage/access to pexels api
+- [ ]  add auto update feature
